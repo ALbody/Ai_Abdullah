@@ -35,10 +35,13 @@ const generateBotResponse = async (messageDiv) => {
     });
 
     const data = await response.json();
+    console.log("API Response:", data); // Check the response in the console
+    
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
     textDiv.innerText = reply;
     chatHistory.push({ role: "model", parts: [{ text: reply }] });
   } catch (err) {
+    console.error("Error:", err);  // Log error to console
     textDiv.innerText = "Error: " + err.message;
   }
 };
