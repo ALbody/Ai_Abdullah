@@ -1,6 +1,6 @@
 /* تعيين الألوان والخلفية */
 body {
-  background-color: #e4f1fe;
+  background-color: #f0f0f0;
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
@@ -29,9 +29,23 @@ body {
   border-radius: 12px 12px 0 0;
 }
 
-.chat-header .logo-text {
+.chat-header h2 {
+  margin: 0;
   font-size: 1.5rem;
-  font-weight: bold;
+}
+
+#close-chatbot {
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#close-chatbot:hover {
+  background-color: #ff1a1a;
 }
 
 .chat-body {
@@ -44,17 +58,7 @@ body {
 }
 
 .message {
-  margin-bottom: 1.2rem;
-}
-
-.user-message .message-text {
-  background-color: #0084ff;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 18px;
-  max-width: 80%;
-  display: inline-block;
-  word-wrap: break-word;
+  margin-bottom: 1rem;
 }
 
 .bot-message .message-text {
@@ -67,17 +71,11 @@ body {
   word-wrap: break-word;
 }
 
-.message-text img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-.chat-form {
+.chat-footer {
   padding: 1rem;
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  border-top: 1px solid #ddd;
   background-color: #f1f1f1;
   border-radius: 0 0 12px 12px;
 }
@@ -97,56 +95,31 @@ body {
   border-color: #007bff;
 }
 
-.chat-controls button {
+#send-message {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px;
-  border-radius: 50%;
+  padding: 10px 15px;
+  border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.chat-controls button:hover {
+#send-message:hover {
   background-color: #0056b3;
 }
 
-.file-upload-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.file-upload-wrapper img {
-  display: none;
-  margin-bottom: 10px;
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-.file-upload-wrapper button {
-  display: none;
-}
-
-.file-upload-wrapper button#file-cancel {
-  background-color: red;
-  padding: 8px 10px;
-  border-radius: 50%;
+#about-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
   margin-top: 10px;
 }
 
-#whatsapp-button {
-  background-color: #25d366;
-  color: white;
-  padding: 12px;
-  border-radius: 50%;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s;
-}
-
-#whatsapp-button:hover {
-  background-color: #128c7e;
+#about-button:hover {
+  background-color: #218838;
 }
