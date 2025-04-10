@@ -1,20 +1,12 @@
 const chatBody = document.querySelector(".chat-body");
 const messageInput = document.querySelector(".message-input");
-const sendMessage = document.querySelector("#send-message");
-const fileInput = document.querySelector("#file-input");
-const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
-const fileCancelButton = document.querySelector("#file-cancel");
-const whatsappButton = document.querySelector("#whatsapp-button");
-const closeChatbot = document.querySelector("#close-chatbot");
+const sendMessage = document.querySelector(".send-button");
 const chatbotToggler = document.querySelector("#chatbot-toggler");
+const chatbotPopup = document.querySelector(".chat-container");
+const closeChatbot = document.querySelector("#close-chatbot");
 
-const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
+const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";  // استبدل هذا بـ API Key الخاص بك
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-const userData = {
-  message: null,
-  file: {},
-};
 
 const chatHistory = [];
 
@@ -28,12 +20,13 @@ const createMessageElement = (content, classes) => {
   return div;
 };
 
-const generateBotResponse = async (messageDiv) => {
-  const textDiv = messageDiv.querySelector(".message-text");
-  chatHistory.push({
-    role: "user",
-    parts: [{ text: userData.message }, ...(userData.file.data ? [{ inline_data: userData.file }] : [])],
-  });
+const generateBotResponse = async (userMessage) => {
+  const textDiv = createMessageElement("...", "bot-message");
+  chatBody.appendChild(textDiv);
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  // إضافة رسالة المستخدم إلى تاريخ الدردشة
+  chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
 
   try {
     const response = await fetch(API_URL, {
@@ -44,26 +37,28 @@ const generateBotResponse = async (messageDiv) => {
 
     const data = await response.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
-    textDiv.innerText = reply;
+
+    // عرض الرد في واجهة الدردشة
+    textDiv.querySelector(".message-text").innerText = reply;
+
+    // إضافة رد البوت إلى تاريخ الدردشة
     chatHistory.push({ role: "model", parts: [{ text: reply }] });
   } catch (err) {
-    textDiv.innerText = "Error: " + err.message;
+    textDiv.querySelector(".message-text").innerText = "Error: " + err.message;
   }
 };
 
 const handleSend = (e) => {
   e.preventDefault();
-  userData.message = messageInput.value.trim();
-  if (!userData.message) return;
+  const userMessage = messageInput.value.trim();
+  if (!userMessage) return;
   messageInput.value = "";
-  const msg = createMessageElement(userData.message, "user-message");
-  chatBody.appendChild(msg);
 
-  const botMsg = createMessageElement("...", "bot-message");
-  chatBody.appendChild(botMsg);
+  const userMsgElement = createMessageElement(userMessage, "user-message");
+  chatBody.appendChild(userMsgElement);
   chatBody.scrollTop = chatBody.scrollHeight;
 
-  generateBotResponse(botMsg);
+  generateBotResponse(userMessage);  // ارسال رسالة المستخدم إلى API للرد من البوت
 };
 
 sendMessage.addEventListener("click", handleSend);
@@ -74,41 +69,10 @@ messageInput.addEventListener("keydown", (e) => {
   }
 });
 
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    userData.file = {
-      data: e.target.result.split(",")[1],
-      mime_type: file.type,
-    };
-    const img = fileUploadWrapper.querySelector("img");
-    img.src = e.target.result;
-    img.style.display = "block";
-    fileCancelButton.style.display = "block";
-  };
-  reader.readAsDataURL(file);
-});
-
-fileCancelButton.addEventListener("click", () => {
-  userData.file = {};
-  fileUploadWrapper.querySelector("img").style.display = "none";
-  fileCancelButton.style.display = "none";
-});
-
-whatsappButton.addEventListener("click", () => {
-  const phone = "201019890771";
-  window.open(`https://wa.me/${phone}`, "_blank");
-});
-
-// تفعيل التبديل بين فتح وغلق الـ chatbot
 chatbotToggler.addEventListener("click", () => {
-  const chatbotPopup = document.querySelector(".chatbot-popup");
-  chatbotPopup.classList.toggle("open");
+  chatbotPopup.style.display = chatbotPopup.style.display === "none" ? "flex" : "none";
 });
 
 closeChatbot.addEventListener("click", () => {
-  const chatbotPopup = document.querySelector(".chatbot-popup");
-  chatbotPopup.classList.remove("open");
+  chatbotPopup.style.display = "none";
 });
