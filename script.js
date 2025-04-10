@@ -1,10 +1,18 @@
 const chatBody = document.querySelector(".chat-body");
-const messageInput = document.querySelector("#message-input");
-const sendButton = document.querySelector("#send-button");
+const messageInput = document.querySelector(".message-input");
+const sendMessage = document.querySelector("#send-message");
+const fileInput = document.querySelector("#file-input");
+const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
+const fileCancelButton = document.querySelector("#file-cancel");
+const whatsappButton = document.querySelector("#whatsapp-button");
 
 const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
+const userData = {
+  message: null,
+  file: {},
+};
 const chatHistory = [];
 
 const createMessageElement = (content, classes) => {
@@ -21,7 +29,7 @@ const generateBotResponse = async (messageDiv) => {
   const textDiv = messageDiv.querySelector(".message-text");
   chatHistory.push({
     role: "user",
-    parts: [{ text: messageInput.value.trim() }],
+    parts: [{ text: userData.message }, ...(userData.file.data ? [{ inline_data: userData.file }] : [])],
   });
 
   try {
@@ -42,12 +50,11 @@ const generateBotResponse = async (messageDiv) => {
 
 const handleSend = (e) => {
   e.preventDefault();
-  const userMessage = messageInput.value.trim();
-  if (!userMessage) return;
-  
+  userData.message = messageInput.value.trim();
+  if (!userData.message) return;
   messageInput.value = "";
-  const userMsg = createMessageElement(userMessage, "user-message");
-  chatBody.appendChild(userMsg);
+  const msg = createMessageElement(userData.message, "user-message");
+  chatBody.appendChild(msg);
 
   const botMsg = createMessageElement("...", "bot-message");
   chatBody.appendChild(botMsg);
@@ -56,10 +63,38 @@ const handleSend = (e) => {
   generateBotResponse(botMsg);
 };
 
-sendButton.addEventListener("click", handleSend);
+sendMessage.addEventListener("click", handleSend);
 
 messageInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     handleSend(e);
   }
+});
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    userData.file = {
+      data: e.target.result.split(",")[1],
+      mime_type: file.type,
+    };
+    const img = fileUploadWrapper.querySelector("img");
+    img.src = e.target.result;
+    img.style.display = "block";
+    fileCancelButton.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+});
+
+fileCancelButton.addEventListener("click", () => {
+  userData.file = {};
+  fileUploadWrapper.querySelector("img").style.display = "none";
+  fileCancelButton.style.display = "none";
+});
+
+whatsappButton.addEventListener("click", () => {
+  const phone = "201019890771";
+  window.open(`https://wa.me/${phone}`, "_blank");
 });
