@@ -1,22 +1,14 @@
 const chatBody = document.querySelector(".chat-body");
 const messageInput = document.querySelector(".message-input");
 const sendMessage = document.querySelector("#send-message");
-const fileInput = document.querySelector("#file-input");
-const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
-const fileCancelButton = document.querySelector("#file-cancel");
 const whatsappButton = document.querySelector("#whatsapp-button");
-const closeChatbot = document.querySelector("#close-chatbot");
-const chatbotToggler = document.querySelector("#chatbot-toggler");
 
 const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 const userData = {
   message: null,
-  file: {},
 };
-
-const chatHistory = [];
 
 const createMessageElement = (content, classes) => {
   const div = document.createElement("div");
@@ -30,22 +22,19 @@ const createMessageElement = (content, classes) => {
 
 const generateBotResponse = async (messageDiv) => {
   const textDiv = messageDiv.querySelector(".message-text");
-  chatHistory.push({
-    role: "user",
-    parts: [{ text: userData.message }, ...(userData.file.data ? [{ inline_data: userData.file }] : [])],
-  });
-
+  
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: chatHistory }),
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: userData.message }] }],
+      }),
     });
 
     const data = await response.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
     textDiv.innerText = reply;
-    chatHistory.push({ role: "model", parts: [{ text: reply }] });
   } catch (err) {
     textDiv.innerText = "Error: " + err.message;
   }
@@ -74,41 +63,7 @@ messageInput.addEventListener("keydown", (e) => {
   }
 });
 
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    userData.file = {
-      data: e.target.result.split(",")[1],
-      mime_type: file.type,
-    };
-    const img = fileUploadWrapper.querySelector("img");
-    img.src = e.target.result;
-    img.style.display = "block";
-    fileCancelButton.style.display = "block";
-  };
-  reader.readAsDataURL(file);
-});
-
-fileCancelButton.addEventListener("click", () => {
-  userData.file = {};
-  fileUploadWrapper.querySelector("img").style.display = "none";
-  fileCancelButton.style.display = "none";
-});
-
 whatsappButton.addEventListener("click", () => {
   const phone = "201019890771";
   window.open(`https://wa.me/${phone}`, "_blank");
-});
-
-// تفعيل التبديل بين فتح وغلق الـ chatbot
-chatbotToggler.addEventListener("click", () => {
-  const chatbotPopup = document.querySelector(".chatbot-popup");
-  chatbotPopup.classList.toggle("open");
-});
-
-closeChatbot.addEventListener("click", () => {
-  const chatbotPopup = document.querySelector(".chatbot-popup");
-  chatbotPopup.classList.remove("open");
 });
