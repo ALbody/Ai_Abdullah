@@ -1,62 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Chatbot | CodingNepal</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Chatbot Toggler -->
-    <button id="chatbot-toggler">
-      <span class="material-symbols-rounded">mode_comment</span>
-      <span class="material-symbols-rounded">close</span>
-    </button>
-
-    <div class="chatbot-popup">
-      <!-- Chatbot Header -->
-      <div class="chat-header">
-        <div class="header-info">
-          <svg class="chatbot-logo" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 1024 1024">
-            <!-- Logo SVG path here -->
-          </svg>
-          <h2 class="logo-text">Chatbot</h2>
-        </div>
-        <button id="close-chatbot" class="material-symbols-rounded">keyboard_arrow_down</button>
-      </div>
-
-      <!-- Chatbot Body -->
-      <div class="chat-body">
-        <div class="message bot-message">
-          <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 1024 1024">
-            <!-- Bot Avatar SVG path here -->
-          </svg>
-          <div class="message-text">Hey there! How can I help you today?</div>
-        </div>
-      </div>
-
-      <!-- Chatbot Footer -->
-      <div class="chat-footer">
-        <form action="#" class="chat-form">
-          <textarea placeholder="Message..." class="message-input" required></textarea>
-          <div class="chat-controls">
-            <button type="button" id="emoji-picker" class="material-symbols-outlined">sentiment_satisfied</button>
-            <div class="file-upload-wrapper">
-              <input type="file" accept="image/*" id="file-input" hidden />
-              <img src="#" />
-              <button type="button" id="file-upload" class="material-symbols-rounded">attach_file</button>
-              <button type="button" id="file-cancel" class="material-symbols-rounded">close</button>
-            </div>
-            <button type="submit" id="send-message" class="material-symbols-rounded">arrow_upward</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Link to About Page -->
-      <a href="page2.html" id="about-button">حول</a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <h2>AI Chatbot</h2>
+      <button id="close-chatbot">x</button>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <!-- Chat Body -->
+    <div class="chat-body">
+      <div class="message bot-message">
+        <div class="message-text">Hello! How can I assist you today?</div>
+      </div>
+    </div>
+
+    <!-- Chat Footer -->
+    <div class="chat-footer">
+      <form class="chat-form" action="#" id="chat-form">
+        <textarea class="message-input" placeholder="Type your message..." required></textarea>
+        <button type="submit" id="send-message">Send</button>
+      </form>
+    </div>
+
+    <!-- About Button -->
+    <a href="page2.html" id="about-button">About</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
