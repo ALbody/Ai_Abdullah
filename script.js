@@ -1,9 +1,12 @@
 const chatBody = document.querySelector(".chat-body");
-const messageInput = document.querySelector("#message-input");
-const sendButton = document.querySelector("#send-button");
-
+const messageInput = document.querySelector(".message-input");
+const sendMessage = document.querySelector("#send-message");
 const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+const userData = {
+  message: null,
+};
 
 const chatHistory = [];
 
@@ -21,7 +24,7 @@ const generateBotResponse = async (messageDiv) => {
   const textDiv = messageDiv.querySelector(".message-text");
   chatHistory.push({
     role: "user",
-    parts: [{ text: messageInput.value.trim() }],
+    parts: [{ text: userData.message }],
   });
 
   try {
@@ -42,12 +45,11 @@ const generateBotResponse = async (messageDiv) => {
 
 const handleSend = (e) => {
   e.preventDefault();
-  const userMessage = messageInput.value.trim();
-  if (!userMessage) return;
-  
+  userData.message = messageInput.value.trim();
+  if (!userData.message) return;
   messageInput.value = "";
-  const userMsg = createMessageElement(userMessage, "user-message");
-  chatBody.appendChild(userMsg);
+  const msg = createMessageElement(userData.message, "user-message");
+  chatBody.appendChild(msg);
 
   const botMsg = createMessageElement("...", "bot-message");
   chatBody.appendChild(botMsg);
@@ -56,7 +58,7 @@ const handleSend = (e) => {
   generateBotResponse(botMsg);
 };
 
-sendButton.addEventListener("click", handleSend);
+sendMessage.addEventListener("click", handleSend);
 
 messageInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
