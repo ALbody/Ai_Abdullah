@@ -1,136 +1,152 @@
-/* ----- تنسيقات عامة ----- */
+/* تعيين الألوان والخلفية */
 body {
-  background-color: #f7f7f7;
+  background-color: #e4f1fe;
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
-  padding: 2rem;
+  align-items: center;
+  height: 100vh;
   margin: 0;
 }
 
-/* ----- تنسيقات للـ Chatbot ----- */
 .chat-container {
   width: 100%;
-  max-width: 600px;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
 }
 
 .chat-header {
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
+  padding: 1.2rem;
+  background-color: #007bff;
+  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.chat-header .logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .chat-body {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
+  background-color: #f9f9f9;
+  border-radius: 0 0 12px 12px;
   max-height: 400px;
 }
 
 .message {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
-.user-message {
-  text-align: right;
-}
-
-.bot-message {
-  text-align: left;
-}
-
-.message-text {
+.user-message .message-text {
+  background-color: #0084ff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 80%;
   display: inline-block;
-  padding: 0.6rem 1rem;
-  border-radius: 12px;
+  word-wrap: break-word;
+}
+
+.bot-message .message-text {
   background-color: #e9ecef;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 80%;
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+.message-text img {
+  max-width: 100%;
+  border-radius: 8px;
 }
 
 .chat-form {
-  display: flex;
   padding: 1rem;
-  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   border-top: 1px solid #ddd;
+  background-color: #f1f1f1;
+  border-radius: 0 0 12px 12px;
 }
 
 .message-input {
   flex: 1;
-  resize: none;
-  height: 50px;
-  border-radius: 8px;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
+  height: 45px;
+  border-radius: 25px;
+  padding: 0 15px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
-/* ----- Modal (لصفحة الـ Chatbot) ----- */
-.modal {
-  display: none;
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background: white;
-  border-radius: 12px;
-  padding: 1rem 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.message-input:focus {
+  border-color: #007bff;
 }
 
-.modal-content .close {
-  float: right;
-  font-size: 20px;
+.chat-controls button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* ----- تنسيقات لصفحة About (أو أي صفحة ثانية) ----- */
-#about-page-content {
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 80%;
-  margin: 20px auto;
+.chat-controls button:hover {
+  background-color: #0056b3;
+}
+
+.file-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-upload-wrapper img {
+  display: none;
+  margin-bottom: 10px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.file-upload-wrapper button {
+  display: none;
+}
+
+.file-upload-wrapper button#file-cancel {
+  background-color: red;
+  padding: 8px 10px;
+  border-radius: 50%;
+  margin-top: 10px;
 }
 
 #whatsapp-button {
-  background-color: #25D366;
+  background-color: #25d366;
   color: white;
-  padding: 12px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  text-align: center;
-  width: 100%;
-  cursor: pointer;
+  padding: 12px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
 }
 
 #whatsapp-button:hover {
-  background-color: #128C7E;
-}
-
-#about-page-content h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-#about-page-content p {
-  font-size: 14px;
-  color: #555;
-}
-
-#about-page-content a {
-  display: inline-block;
-  margin-top: 20px;
-  font-size: 16px;
-  color: #007bff;
-  text-decoration: none;
-}
-
-#about-page-content a:hover {
-  color: #0056b3;
+  background-color: #128c7e;
 }
