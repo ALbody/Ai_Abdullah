@@ -1,12 +1,9 @@
 const chatBody = document.querySelector(".chat-body");
-const messageInput = document.querySelector(".message-input");
-const sendMessage = document.querySelector("#send-message");
+const messageInput = document.querySelector("#message-input");
+const sendButton = document.querySelector("#send-button");
+
 const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-const userData = {
-  message: null,
-};
 
 const chatHistory = [];
 
@@ -24,7 +21,7 @@ const generateBotResponse = async (messageDiv) => {
   const textDiv = messageDiv.querySelector(".message-text");
   chatHistory.push({
     role: "user",
-    parts: [{ text: userData.message }],
+    parts: [{ text: messageInput.value.trim() }],
   });
 
   try {
@@ -35,24 +32,22 @@ const generateBotResponse = async (messageDiv) => {
     });
 
     const data = await response.json();
-    console.log("API Response:", data); // Check the response in the console
-    
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
     textDiv.innerText = reply;
     chatHistory.push({ role: "model", parts: [{ text: reply }] });
   } catch (err) {
-    console.error("Error:", err);  // Log error to console
     textDiv.innerText = "Error: " + err.message;
   }
 };
 
 const handleSend = (e) => {
   e.preventDefault();
-  userData.message = messageInput.value.trim();
-  if (!userData.message) return;
+  const userMessage = messageInput.value.trim();
+  if (!userMessage) return;
+  
   messageInput.value = "";
-  const msg = createMessageElement(userData.message, "user-message");
-  chatBody.appendChild(msg);
+  const userMsg = createMessageElement(userMessage, "user-message");
+  chatBody.appendChild(userMsg);
 
   const botMsg = createMessageElement("...", "bot-message");
   chatBody.appendChild(botMsg);
@@ -61,7 +56,7 @@ const handleSend = (e) => {
   generateBotResponse(botMsg);
 };
 
-sendMessage.addEventListener("click", handleSend);
+sendButton.addEventListener("click", handleSend);
 
 messageInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
