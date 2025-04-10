@@ -22,17 +22,25 @@ const createMessageElement = (content, classes) => {
 
 const generateBotResponse = async (messageDiv) => {
   const textDiv = messageDiv.querySelector(".message-text");
-  
+
+  // إرسال الرسالة إلى البوت مع تحديد اللغة
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: userData.message }] }],
+        contents: [
+          {
+            role: "user",
+            language_code: "ar",  // تحديد أن الرسالة بالعربية
+            parts: [{ text: userData.message }],
+          },
+        ],
       }),
     });
 
     const data = await response.json();
+    // الرد من البوت بالإنجليزية
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
     textDiv.innerText = reply;
   } catch (err) {
