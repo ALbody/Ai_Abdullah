@@ -3,7 +3,7 @@ const messageInput = document.querySelector(".message-input");
 const sendMessage = document.querySelector("#send-message");
 const whatsappButton = document.querySelector("#whatsapp-button");
 
-const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
+const API_KEY = "AIzaSyDO55ckTtjFGF3Miar39fUppsJv29K9XDk";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 const userData = {
