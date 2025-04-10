@@ -5,6 +5,8 @@ const fileInput = document.querySelector("#file-input");
 const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
 const fileCancelButton = document.querySelector("#file-cancel");
 const whatsappButton = document.querySelector("#whatsapp-button");
+const closeChatbot = document.querySelector("#close-chatbot");
+const chatbotToggler = document.querySelector("#chatbot-toggler");
 
 const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
@@ -13,6 +15,7 @@ const userData = {
   message: null,
   file: {},
 };
+
 const chatHistory = [];
 
 const createMessageElement = (content, classes) => {
@@ -97,4 +100,15 @@ fileCancelButton.addEventListener("click", () => {
 whatsappButton.addEventListener("click", () => {
   const phone = "201019890771";
   window.open(`https://wa.me/${phone}`, "_blank");
+});
+
+// تفعيل التبديل بين فتح وغلق الـ chatbot
+chatbotToggler.addEventListener("click", () => {
+  const chatbotPopup = document.querySelector(".chatbot-popup");
+  chatbotPopup.classList.toggle("open");
+});
+
+closeChatbot.addEventListener("click", () => {
+  const chatbotPopup = document.querySelector(".chatbot-popup");
+  chatbotPopup.classList.remove("open");
 });
