@@ -5,6 +5,8 @@ const fileInput = document.querySelector("#file-input");
 const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
 const fileCancelButton = document.querySelector("#file-cancel");
 const whatsappButton = document.querySelector("#whatsapp-button");
+const closeChatbot = document.querySelector("#close-chatbot");
+const chatbotToggler = document.querySelector("#chatbot-toggler");
 
 const API_KEY = "AIzaSyCHC3N4D_q1sAKfrGzTRk6KtNaAsgEP53c";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
@@ -13,24 +15,15 @@ const userData = {
   message: null,
   file: {},
 };
+
 const chatHistory = [];
 
-const createMessageElement = (content, classes, isImage = false) => {
+const createMessageElement = (content, classes) => {
   const div = document.createElement("div");
   div.classList.add("message", classes);
   const text = document.createElement("div");
   text.className = "message-text";
-  
-  if (isImage) {
-    const img = document.createElement("img");
-    img.src = content;
-    img.alt = "User uploaded image";
-    img.style.maxWidth = "100%";
-    text.appendChild(img);
-  } else {
-    text.innerHTML = content;
-  }
-
+  text.innerHTML = content;
   div.appendChild(text);
   return div;
 };
@@ -54,18 +47,16 @@ const generateBotResponse = async (messageDiv) => {
     textDiv.innerText = reply;
     chatHistory.push({ role: "model", parts: [{ text: reply }] });
   } catch (err) {
-    textDiv.innerText = "Error: Unable to reach the API. Please try again later.";
-    console.error("Error:", err);
+    textDiv.innerText = "Error: " + err.message;
   }
 };
 
 const handleSend = (e) => {
   e.preventDefault();
   userData.message = messageInput.value.trim();
-  if (!userData.message && !userData.file.data) return;
-
+  if (!userData.message) return;
   messageInput.value = "";
-  const msg = createMessageElement(userData.message || "Image/File uploaded", "user-message", !!userData.file.data);
+  const msg = createMessageElement(userData.message, "user-message");
   chatBody.appendChild(msg);
 
   const botMsg = createMessageElement("...", "bot-message");
@@ -109,4 +100,15 @@ fileCancelButton.addEventListener("click", () => {
 whatsappButton.addEventListener("click", () => {
   const phone = "201019890771";
   window.open(`https://wa.me/${phone}`, "_blank");
+});
+
+// تفعيل التبديل بين فتح وغلق الـ chatbot
+chatbotToggler.addEventListener("click", () => {
+  const chatbotPopup = document.querySelector(".chatbot-popup");
+  chatbotPopup.classList.toggle("open");
+});
+
+closeChatbot.addEventListener("click", () => {
+  const chatbotPopup = document.querySelector(".chatbot-popup");
+  chatbotPopup.classList.remove("open");
 });
