@@ -6,24 +6,21 @@ const whatsappButton = document.querySelector("#whatsapp-button");
 const API_KEY = "AIzaSyDO55ckTtjFGF3Miar39fUppsJv29K9XDk";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-const userData = {
-  message: null,
-};
+const userData = { message: null };
 
-const createMessageElement = (content, classes) => {
+const createMessageElement = (content, className) => {
   const div = document.createElement("div");
-  div.classList.add("message", classes);
+  div.classList.add("message", className);
   const text = document.createElement("div");
   text.className = "message-text";
-  text.innerHTML = content;
+  text.innerText = content;
   div.appendChild(text);
   return div;
 };
 
-const generateBotResponse = async (messageDiv) => {
-  const textDiv = messageDiv.querySelector(".message-text");
+const generateBotResponse = async (botMsg) => {
+  const textDiv = botMsg.querySelector(".message-text");
 
-  // إرسال الرسالة إلى البوت مع تحديد اللغة
   try {
     const response = await fetch(API_URL, {
       method: "POST",
@@ -32,23 +29,17 @@ const generateBotResponse = async (messageDiv) => {
         contents: [
           {
             role: "user",
-            language_code: "ar",  // تحديد أن الرسالة بالعربية
             parts: [{ text: userData.message }],
           },
         ],
       }),
     });
 
-    if (!response.ok) {
-      throw new Error("حدث خطأ أثناء الاتصال بـ API.");
-    }
-
     const data = await response.json();
-    // الرد من البوت بالإنجليزية
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "لا يوجد رد.";
     textDiv.innerText = reply;
-  } catch (err) {
-    textDiv.innerText = `خطأ: ${err.message}`;
+  } catch (error) {
+    textDiv.innerText = "حدث خطأ أثناء الاتصال بالخادم.";
   }
 };
 
@@ -56,11 +47,12 @@ const handleSend = (e) => {
   e.preventDefault();
   userData.message = messageInput.value.trim();
   if (!userData.message) return;
-  messageInput.value = "";
-  const msg = createMessageElement(userData.message, "user-message");
-  chatBody.appendChild(msg);
 
-  const botMsg = createMessageElement("جارٍ التحميل...", "bot-message");
+  const userMsg = createMessageElement(userData.message, "user-message");
+  chatBody.appendChild(userMsg);
+  messageInput.value = "";
+
+  const botMsg = createMessageElement("جاري التفكير...", "bot-message");
   chatBody.appendChild(botMsg);
   chatBody.scrollTop = chatBody.scrollHeight;
 
@@ -76,6 +68,5 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 whatsappButton.addEventListener("click", () => {
-  const phone = "201019890771";
-  window.open(`https://wa.me/${phone}`, "_blank");
+  window.open("https://wa.me/201019890771", "_blank");
 });
