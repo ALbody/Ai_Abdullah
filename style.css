@@ -1,69 +1,45 @@
-/* General Reset */
-* {
+body {
+  background: #f3f4f6;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f7f7f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.header-info {
+.main-header {
+  background-color: #4a4ef5;
+  color: white;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
 }
 
-.header-info .logo-text {
-  font-size: 1.5rem;
-}
-
-.whatsapp-button {
-  color: white;
+#whatsapp-button {
   background-color: #25d366;
-  padding: 10px;
-  border-radius: 5px;
-  text-decoration: none;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .chat-container {
-  margin-top: 80px;
-  width: 100%;
   max-width: 600px;
+  margin: 2rem auto;
   background: white;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  position: relative;
-}
-
-.chat-header {
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 80vh;
 }
 
 .chat-body {
   flex: 1;
-  padding: 1rem;
   overflow-y: auto;
-  max-height: 400px;
+  padding: 1rem;
 }
 
 .message {
@@ -80,41 +56,32 @@ body {
 
 .message-text {
   display: inline-block;
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1rem;
   border-radius: 12px;
   background-color: #e9ecef;
+  max-width: 80%;
 }
 
-.chat-footer {
-  padding: 1rem;
+.chat-form {
   display: flex;
-  gap: 0.5rem;
-  border-top: 1px solid #ddd;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
 }
 
 .message-input {
   flex: 1;
   resize: none;
-  height: 50px;
-  border-radius: 8px;
   padding: 0.5rem;
+  border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-.material-symbols-rounded {
-  font-size: 30px;
-}
-
-.footer-info {
-  background-color: #007bff;
+#send-message {
+  background: #4a4ef5;
   color: white;
-  text-align: center;
-  padding: 10px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-footer p {
-  margin: 0;
+  border: none;
+  margin-right: 0.5rem;
+  padding: 0 1rem;
+  border-radius: 6px;
+  cursor: pointer;
 }
